@@ -5,20 +5,15 @@ on:
   push:
     branches:
       - master
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -26,7 +21,10 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Get dependencies
+      - name: Check Flutter
+        run: flutter --version
+
+      - name: Get Dependencies
         run: flutter pub get
 
       - name: Build APK
@@ -35,6 +33,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
+          name: aplikasi-flutter-apk
           path: build/app/outputs/flutter-apk/app-release.apk
-          if-no-files-found: error
